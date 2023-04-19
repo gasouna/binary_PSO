@@ -80,3 +80,10 @@ class Utils:
                 selected_particles.append(population[particle_2])
 
         return selected_particles
+    
+    def singlePointCrossover(self, first_parent, second_parent):
+
+        # Because Python uses len(x) - 1 as the vector's last position we need to use len(x) - 2 to garantee that the break point will split at least one bit from the parents
+        break_point = randint(1, len(first_parent) - 2) 
+
+        return first_parent[:break_point] + second_parent[break_point:], second_parent[:break_point] + first_parent[break_point:]
