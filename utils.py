@@ -1,4 +1,4 @@
-from random import random
+from random import random, randint
 from math import exp
 
 class Utils:
@@ -64,3 +64,19 @@ class Utils:
                 mutated_x += b
         
         return mutated_x
+    
+    def binaryTournamentSelection(self, population, fitness, number_of_children):
+
+        selected_particles = []
+
+        for i in range(number_of_children):
+        
+            particle_1 = randint(0,len(population)-1)
+            particle_2 = randint(0,len(population)-1)
+
+            if fitness[particle_1] <= fitness[particle_2]:
+                selected_particles.append(population[particle_1])
+            else:
+                selected_particles.append(population[particle_2])
+
+        return selected_particles
