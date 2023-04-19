@@ -13,7 +13,7 @@ class Utils:
 
         converted_value = ((2 ** self.number_of_bits) - 1) * (real_input - self.min_value) / (self.max_value - self.min_value)
 
-        return '{0:{1}b}'.format(int(converted_value), self.number_of_bits)
+        return '{0:0{1}b}'.format(int(converted_value), self.number_of_bits)
     
     def binToDec(self, binary_input):
 
