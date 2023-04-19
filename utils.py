@@ -45,3 +45,22 @@ class Utils:
             new_individuals.append(''.join(map(str, new_individual)))
 
         return new_individuals
+    
+    def mutate(self, x, mutation_rate):
+
+        mutated_x = ""
+
+        for b in x:
+
+            if mutation_rate > random():
+        
+                if b == '1':
+                    mutated_x += '0'
+                else:
+                    mutated_x += '1'
+    
+            else:
+
+                mutated_x += b
+        
+        return mutated_x
