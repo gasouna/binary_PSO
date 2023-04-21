@@ -27,7 +27,7 @@ inertial_weight = [0.4, 0.9]
 acceleration_factor = [2, 2]
 
 ## Definições c_PSO
-pC = 0.6
+pC = 0.3
 nC = round(pC * (pop_size / 2)) * 2
 population_after_crossing = {}
 
