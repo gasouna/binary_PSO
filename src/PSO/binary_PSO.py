@@ -27,7 +27,7 @@ inertial_weight = [0.4, 0.9]
 acceleration_factor = [2, 2]
 
 # Definições iwim_PSO
-mutation_rate = 0.0175
+mutation_rate = 0.035
 population_after_mut = {}
 
 # Inicialização das variáveis
