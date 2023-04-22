@@ -28,7 +28,7 @@ acceleration_factor = [2, 2]
 
 ## Definições h_PSO
 pC = 0.6
-mR = 0.0525
+mR = 0.0175
 nC = round(pC * (pop_size / 2)) * 2
 population_after_crossing = {}
 
@@ -143,30 +143,32 @@ for i in range(n_executions):
         population[iter] = x.copy()
         fitness[iter] = fit
 
-        # Aplica o cruzamento
-        ## Seleção dos pais
-        int_population = functions.binaryTournamentSelection(x, fit, nC)
-        children = [''] * nC
+        if iter > epochs / 2:
+            # Aplica o cruzamento
+            ## Seleção dos pais
+            int_population = functions.binaryTournamentSelection(x, fit, nC)
+            children = [''] * nC
 
-        ## Cruzamento
-        for i in range(0, nC, 2):
+            ## Cruzamento
+            for i in range(0, nC, 2):
 
-            children[i], children[i+1] = functions.singlePointCrossover(int_population[i], int_population[i+1])
+                children[i], children[i+1] = functions.singlePointCrossover(int_population[i], int_population[i+1])
 
-        ## Substituição na população
-        best_individuals = np.argsort(fit)
+            ## Substituição na população
+            best_individuals = np.argsort(fit)
 
-        for i in range((pop_size - nC), pop_size):
+            for i in range((pop_size - nC), pop_size):
 
-            x[best_individuals[i]] = children[0]
-            pbest[iter][i] = children[0]
-            children.pop(0)
+                x[best_individuals[i]] = children[0]
+                pbest[iter][i] = children[0]
+                children.pop(0)
 
-        population_after_crossing[iter] = x.copy()
+            population_after_crossing[iter] = x.copy()
 
-        for i in range(pop_size):
+        else:
+            for i in range(pop_size):
 
-            x[i] = functions.mutate(x[i], mR)
+                x[i] = functions.mutate(x[i], mR)
     
 
     # Dump dos resultados
