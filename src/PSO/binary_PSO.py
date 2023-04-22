@@ -28,7 +28,7 @@ acceleration_factor = [2, 2]
 
 ## Definições h_PSO
 pC = 0.6
-mR = 0.0175
+mR = 0.035
 nC = round(pC * (pop_size / 2)) * 2
 population_after_crossing = {}
 
