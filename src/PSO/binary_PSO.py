@@ -26,8 +26,9 @@ x_interval = y_interval = [-10, 10]
 inertial_weight = [0.4, 0.9]
 acceleration_factor = [2, 2]
 
-## Definições c_PSO
+## Definições h_PSO
 pC = 0.6
+mR = 0.0175
 nC = round(pC * (pop_size / 2)) * 2
 population_after_crossing = {}
 
@@ -162,6 +163,10 @@ for i in range(n_executions):
             children.pop(0)
 
         population_after_crossing[iter] = x.copy()
+
+        for i in range(pop_size):
+
+            x[i] = functions.mutate(x[i], mR)
     
 
     # Dump dos resultados
