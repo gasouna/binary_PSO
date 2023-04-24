@@ -27,10 +27,9 @@ inertial_weight = [0.4, 0.9]
 acceleration_factor = [2, 2]
 
 ## Definições h_PSO
-pC = 0.6
-mR = 0.0525
-nC = round(pC * (pop_size / 2)) * 2
-population_after_crossing = {}
+iwim_mR = 0.0175
+cm_mR = 0.0525
+population_after_mut = {}
 
 # Inicialização das variáveis
 population = {}
@@ -74,13 +73,14 @@ for i in range(n_executions):
         fit.append(objectiveFunction(solution))
 
     population[0] = x
-    population_after_crossing[0] = x
+    population_after_mut[0] = x
     fitness[0] = fit
     pbest[0] = x
     pbest_fit[0] = fit
     gbest[0] = x[fit.index(min(fit))]
     gbest_fit[0] = min(fit)
 
+    iwim = [0] * pop_size
 
     for iter in range(1, epochs + 1):
 
@@ -122,11 +122,13 @@ for i in range(n_executions):
 
                 pbest_fit[iter].append(fit[i])
                 pbest[iter].append(x[i])
+                iwim[i] = 0
 
             else:
 
                 pbest_fit[iter].append(pbest_fit[iter-1][i])
                 pbest[iter].append(pbest[iter-1][i])
+                iwim[i] = iwim[i] + 1
 
         # Atualiza o Gbest
         if min(fit) <= gbest_fit[iter-1]:
@@ -143,32 +145,17 @@ for i in range(n_executions):
         population[iter] = x.copy()
         fitness[iter] = fit
 
-        if iter > epochs / 2:
-            # Aplica o cruzamento
-            ## Seleção dos pais
-            int_population = functions.binaryTournamentSelection(x, fit, nC)
-            children = [''] * nC
-
-            ## Cruzamento
-            for i in range(0, nC, 2):
-
-                children[i], children[i+1] = functions.singlePointCrossover(int_population[i], int_population[i+1])
-
-            ## Substituição na população
-            best_individuals = np.argsort(fit)
-
-            for i in range((pop_size - nC), pop_size):
-
-                x[best_individuals[i]] = children[0]
-                pbest[iter][i] = functions.mutate(children[0], 0.0525)
-                children.pop(0)
-
-            population_after_crossing[iter] = x.copy()
-
-        else:
+        if iter <= epochs / 2:
             for i in range(pop_size):
 
-                x[i] = functions.mutate(x[i], mR)
+                x[i] = functions.mutate(x[i], cm_mR)
+
+        else:
+            if iwim[i] >= 3:
+
+                x[i] = functions.mutate(x[i], iwim_mR)
+
+        population_after_mut[iter] = x.copy()
     
 
     # Dump dos resultados
@@ -184,7 +171,7 @@ for i in range(n_executions):
         json.dump(population, f)
 
     with open("population_after_crossing.json", "w") as f:
-        json.dump(population_after_crossing, f)
+        json.dump(population_after_mut, f)
 
     with open("population_fitness.json", "w") as f:
         json.dump(fitness, f)
