@@ -144,6 +144,8 @@ for i in range(n_executions):
         fitness[iter] = fit
 
         if iter >= (epochs / 2):
+            acceleration_factor[1] = 1.5
+            
             # Aplica o cruzamento
             ## Seleção dos pais
             int_population = functions.binaryTournamentSelection(x, fit, nC)
@@ -160,7 +162,7 @@ for i in range(n_executions):
             for i in range((pop_size - nC), pop_size):
 
                 x[best_individuals[i]] = children[0]
-                #pbest[iter][i] = children[0]
+                pbest[iter][i] = children[0]
                 children.pop(0)
 
         else:
