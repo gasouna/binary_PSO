@@ -28,7 +28,9 @@ acceleration_factor = [2, 2]
 
 ## Definições h_PSO
 iwim_mR = 0.035
-population_after_mut = {}
+cR = 0.6
+nC = round(cR * (pop_size / 2)) * 2
+population_after_gen_op = {}
 
 # Inicialização das variáveis
 population = {}
@@ -72,7 +74,7 @@ for i in range(n_executions):
         fit.append(objectiveFunction(solution))
 
     population[0] = x
-    population_after_mut[0] = x
+    population_after_gen_op[0] = x
     fitness[0] = fit
     pbest[0] = x
     pbest_fit[0] = fit
@@ -145,11 +147,23 @@ for i in range(n_executions):
         fitness[iter] = fit
 
         if iter <= epochs / 2:
-            if iwim[i] >= 3:
+            int_population = functions.binaryTournamentSelection(x, fit, nC)
+            children = [''] * nC
 
+            for i in range(0, nC, 2):
+                children[i], children[i+1] = functions.singlePointCrossover(int_population[i], int_population[i+1])
+
+            best_individuals = np.argsort(fit)
+
+            for i in range((pop_size - nC), pop_size):
+                x[best_individuals[i]] = children[0]
+                children.pop(0)
+        
+        else:
+            if iwim[i] >= 3:
                 x[i] = functions.mutate(x[i], iwim_mR)
 
-        population_after_mut[iter] = x.copy()
+        population_after_gen_op[iter] = x.copy()
     
 
     # Dump dos resultados
@@ -165,7 +179,7 @@ for i in range(n_executions):
         json.dump(population, f)
 
     with open("population_after_crossing.json", "w") as f:
-        json.dump(population_after_mut, f)
+        json.dump(population_after_gen_op, f)
 
     with open("population_fitness.json", "w") as f:
         json.dump(fitness, f)
