@@ -16,7 +16,7 @@ def objectiveFunction(X):
     return A * 2 + sum([(x ** 2 - A * np.cos(2 * pi * x)) for x in X])
 
 # Execuções
-n_executions = 50
+n_executions = 250
 
 # Definições do PSO
 pop_size = 30
