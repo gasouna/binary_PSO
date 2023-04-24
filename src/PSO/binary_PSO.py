@@ -27,7 +27,7 @@ inertial_weight = [0.4, 0.9]
 acceleration_factor = [2, 2]
 
 ## Definições h_PSO
-iwim_mR = 0.0175
+iwim_mR = 0.035
 cm_mR = 0.0525
 population_after_mut = {}
 
