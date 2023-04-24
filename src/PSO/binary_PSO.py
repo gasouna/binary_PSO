@@ -28,7 +28,7 @@ acceleration_factor = [2, 2]
 
 ## Definições h_PSO
 iwim_mR = 0.035
-cm_mR = 0.0525
+cm_mR = 0.0175
 population_after_mut = {}
 
 # Inicialização das variáveis
