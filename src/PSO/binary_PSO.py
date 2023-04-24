@@ -28,7 +28,7 @@ acceleration_factor = [2, 2]
 
 ## Definições h_PSO
 iwim_mR = 0.035
-cR = 0.4
+cR = 0.3
 nC = round(cR * (pop_size / 2)) * 2
 population_after_gen_op = {}
 
