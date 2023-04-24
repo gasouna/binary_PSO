@@ -28,7 +28,6 @@ acceleration_factor = [2, 2]
 
 ## Definições h_PSO
 iwim_mR = 0.0525
-cm_mR = 0.035
 population_after_mut = {}
 
 # Inicialização das variáveis
@@ -146,11 +145,6 @@ for i in range(n_executions):
         fitness[iter] = fit
 
         if iter <= epochs / 2:
-            for i in range(pop_size):
-
-                x[i] = functions.mutate(x[i], cm_mR)
-
-        else:
             if iwim[i] >= 3:
 
                 x[i] = functions.mutate(x[i], iwim_mR)
