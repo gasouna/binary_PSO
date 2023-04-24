@@ -160,7 +160,7 @@ for i in range(n_executions):
             for i in range((pop_size - nC), pop_size):
 
                 x[best_individuals[i]] = children[0]
-                pbest[iter][i] = children[0]
+                #pbest[iter][i] = children[0]
                 children.pop(0)
 
         else:
