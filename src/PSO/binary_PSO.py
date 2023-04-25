@@ -28,7 +28,7 @@ acceleration_factor = [2, 2]
 
 ## Definições h_PSO
 mR = 0.0525
-pS = 0.2
+pS = 0.1
 nS = round(pS * (pop_size / 2)) * 2
 population_after_gen_oper = {}
 
