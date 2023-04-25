@@ -82,8 +82,6 @@ for i in range(n_executions):
     gbest_fit[0] = min(fit)
 
 
-    iwim = [0] * pop_size
-
     for iter in range(1, epochs + 1):
 
         # Atualiza o peso inercial
@@ -124,13 +122,11 @@ for i in range(n_executions):
 
                 pbest_fit[iter].append(fit[i])
                 pbest[iter].append(x[i])
-                iwim[i] = 0
 
             else:
 
                 pbest_fit[iter].append(pbest_fit[iter-1][i])
                 pbest[iter].append(pbest[iter-1][i])
-                iwim[i] = iwim[i] + 1
 
         # Atualiza o Gbest
         if min(fit) <= gbest_fit[iter-1]:
@@ -153,10 +149,8 @@ for i in range(n_executions):
             x[best_individuals[i]] = gbest[iter]
             pbest[iter][i] = gbest[iter]
 
-        for i in range(pop_size - nS):
-
-            if iwim[i] >= 3:
-                x[i] = functions.mutate(x[i], mR)
+        for i in range(pop_size):
+            x[i] = functions.mutate(x[i], mR)
 
         population_after_gen_oper[iter] = x.copy()
     
