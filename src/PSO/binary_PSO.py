@@ -145,9 +145,10 @@ for i in range(n_executions):
 
         best_individuals = np.argsort(fit)
 
-        for i in range((pop_size - nS), pop_size):
-            x[best_individuals[i]] = gbest[iter]
-            pbest[iter][i] = gbest[iter]
+        if iter >= (epochs / 2):
+            for i in range((pop_size - nS), pop_size):
+                x[best_individuals[i]] = gbest[iter]
+                pbest[iter][i] = gbest[iter]
 
         for i in range(pop_size):
             x[i] = functions.mutate(x[i], mR)
