@@ -16,7 +16,7 @@ def objectiveFunction(X):
     return A * 2 + sum([(x ** 2 - A * np.cos(2 * pi * x)) for x in X])
 
 # Execuções
-n_executions = 50
+n_executions = 250
 
 # Definições do PSO
 pop_size = 30
@@ -27,9 +27,8 @@ inertial_weight = [0.4, 0.9]
 acceleration_factor = [2, 2]
 
 ## Definições h_PSO
-pC = 0.6
-mR = 0.0525
-nC = round(pC * (pop_size / 2)) * 2
+pS = 0.2
+nS = round(pS * (pop_size / 2)) * 2
 population_after_gen_oper = {}
 
 # Inicialização das variáveis
@@ -143,32 +142,11 @@ for i in range(n_executions):
         population[iter] = x.copy()
         fitness[iter] = fit
 
-        if iter >= (epochs / 2):
-            acceleration_factor[1] = 1.5
-            
-            # Aplica o cruzamento
-            ## Seleção dos pais
-            int_population = functions.binaryTournamentSelection(x, fit, nC)
-            children = [''] * nC
+        best_individuals = np.argsort(fit)
 
-            ## Cruzamento
-            for i in range(0, nC, 2):
-
-                children[i], children[i+1] = functions.singlePointCrossover(int_population[i], int_population[i+1])
-
-            ## Substituição na população
-            best_individuals = np.argsort(fit)
-
-            for i in range((pop_size - nC), pop_size):
-
-                x[best_individuals[i]] = children[0]
-                pbest[iter][i] = children[0]
-                children.pop(0)
-
-        else:
-            for i in range(pop_size):
-
-                x[i] = functions.mutate(x[i], mR)
+        for i in range((pop_size - nS), pop_size):
+            x[best_individuals[i]] = gbest[iter]
+            pbest[iter][i] = gbest[iter]
         
         population_after_gen_oper[iter] = x.copy()
     
