@@ -27,6 +27,7 @@ inertial_weight = [0.4, 0.9]
 acceleration_factor = [2, 2]
 
 ## Definições h_PSO
+mR = 0.0525
 pS = 0.2
 nS = round(pS * (pop_size / 2)) * 2
 population_after_gen_oper = {}
@@ -81,6 +82,8 @@ for i in range(n_executions):
     gbest_fit[0] = min(fit)
 
 
+    iwim = [0] * pop_size
+
     for iter in range(1, epochs + 1):
 
         # Atualiza o peso inercial
@@ -121,11 +124,13 @@ for i in range(n_executions):
 
                 pbest_fit[iter].append(fit[i])
                 pbest[iter].append(x[i])
+                iwim[i] = 0
 
             else:
 
                 pbest_fit[iter].append(pbest_fit[iter-1][i])
                 pbest[iter].append(pbest[iter-1][i])
+                iwim[i] = iwim[i] + 1
 
         # Atualiza o Gbest
         if min(fit) <= gbest_fit[iter-1]:
@@ -147,7 +152,12 @@ for i in range(n_executions):
         for i in range((pop_size - nS), pop_size):
             x[best_individuals[i]] = gbest[iter]
             pbest[iter][i] = gbest[iter]
-        
+
+        for i in range(pop_size - nS):
+
+            if iwim[i] >= 3:
+                x[i] = functions.mutate(x[i], mR)
+
         population_after_gen_oper[iter] = x.copy()
     
 
